@@ -109,6 +109,17 @@ class MongoTests(IsolatedAsyncioTestCase):
 
 
 class ModelTests(TestCase):
+    def test_mongo_model_converts_database_id_to_string(self) -> None:
+        from app.models.common import MongoModel
+
+        class FakeObjectId:
+            def __str__(self) -> str:
+                return "507f1f77bcf86cd799439011"
+
+        model = MongoModel.model_validate({"_id": FakeObjectId()})
+
+        self.assertEqual(model.id, "507f1f77bcf86cd799439011")
+
     def test_user_conversation_and_llm_log_models_serialize(self) -> None:
         from app.models.conversation import Conversation, Message, MessageRole
         from app.models.llm_log import LlmLog, LlmLogStatus
