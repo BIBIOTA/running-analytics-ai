@@ -1,14 +1,14 @@
 {
   "name": "running-analytics-ai",
+  "version": "0.1.0",
   "private": true,
   "workspaces": [
     "apps/frontend"
   ],
   "scripts": {
-    "dev": "npm --workspace apps/frontend run dev",
-    "build": "npm --workspace apps/frontend run build",
-    "lint": "npm --workspace apps/frontend run lint",
-    "test": "npm --workspace apps/frontend run test",
-    "generate-api": "npm --workspace apps/frontend run generate-api"
+    "dev": "docker compose up",
+    "lint": "make lint",
+    "test": "make test",
+    "generate-api": "make generate-api"
   }
 }
