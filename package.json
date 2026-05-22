@@ -1,0 +1,14 @@
+{
+  "name": "running-analytics-ai",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/frontend"
+  ],
+  "scripts": {
+    "dev": "docker compose up",
+    "lint": "make lint",
+    "test": "make test",
+    "generate-api": "make generate-api"
+  }
+}

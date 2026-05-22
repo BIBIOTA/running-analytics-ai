@@ -1,0 +1,16 @@
+services:
+  backend:
+    command: >
+      sh -c "pip install -e . &&
+      uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - ./apps/backend:/app/apps/backend
+      - ./api-contract:/app/api-contract
+
+  frontend:
+    command: >
+      sh -c "npm install &&
+      npm run dev -- --host 0.0.0.0 --port 3000"
+    volumes:
+      - ./apps/frontend:/app/apps/frontend
+      - ./api-contract:/app/api-contract

@@ -1,0 +1,37 @@
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    image: python:3.12-slim
+    working_dir: /app/apps/backend
+    volumes:
+      - .:/app
+    env_file:
+      - apps/backend/.env.example
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/running_analytics
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /app/apps/frontend
+    volumes:
+      - .:/app
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:
