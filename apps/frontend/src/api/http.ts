@@ -1,6 +1,6 @@
 export type ApiClientOptions<TBody = unknown> = {
   url: string;
-  method: string;
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   headers?: HeadersInit;
   data?: TBody;
   params?: Record<string, unknown>;
