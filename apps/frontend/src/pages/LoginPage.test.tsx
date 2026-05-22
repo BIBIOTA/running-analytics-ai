@@ -7,6 +7,6 @@ describe("LoginPage", () => {
     const html = renderToStaticMarkup(<LoginPage />);
 
     expect(html).toContain('href="/api/auth/strava"');
-    expect(html).toContain("Continue with Strava");
+    expect(html).toContain("使用 Strava 登入");
   });
 });

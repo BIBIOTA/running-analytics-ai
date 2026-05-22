@@ -11,6 +11,6 @@ describe("App", () => {
       </StaticRouter>,
     );
 
-    expect(html).toContain("Continue with Strava");
+    expect(html).toContain("使用 Strava 登入");
   });
 });
