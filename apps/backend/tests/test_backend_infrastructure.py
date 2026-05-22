@@ -157,7 +157,8 @@ class ModelTests(TestCase):
             prompt_version="v1.0.0",
             input_tokens=10,
             output_tokens=20,
-            total_tokens=30,
+            reasoning_tokens=500,
+            total_tokens=530,
             latency_ms=1500,
             status=LlmLogStatus.SUCCESS,
             created_at=now,
@@ -166,5 +167,25 @@ class ModelTests(TestCase):
         self.assertEqual(user.model_dump(by_alias=True)["_id"], "user-1")
         self.assertIsNone(conversation.activity_id)
         self.assertEqual(conversation.messages[0].role, MessageRole.USER)
-        self.assertEqual(log.total_tokens, 30)
+        self.assertEqual(log.reasoning_tokens, 500)
+        self.assertEqual(log.total_tokens, 530)
         self.assertEqual(log.status, LlmLogStatus.SUCCESS)
+
+    def test_llm_log_reasoning_tokens_defaults_to_none(self) -> None:
+        from app.models.llm_log import LlmLog, LlmLogStatus
+
+        log = LlmLog(
+            request_id="request-2",
+            user_id="user-1",
+            provider_name="google",
+            model_name="gemini-3.1-pro-preview",
+            prompt_version="v1.0.0",
+            input_tokens=10,
+            output_tokens=20,
+            total_tokens=30,
+            latency_ms=800,
+            status=LlmLogStatus.SUCCESS,
+        )
+
+        self.assertIsNone(log.reasoning_tokens)
+        self.assertIn("reasoning_tokens", log.model_dump())
