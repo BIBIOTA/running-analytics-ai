@@ -22,7 +22,7 @@ class LlmLog(MongoModel):
     prompt_version: str
     input_tokens: int | None = None
     output_tokens: int | None = None
-    thoughts_tokens: int | None = None
+    reasoning_tokens: int | None = None
     total_tokens: int | None = None
     latency_ms: int
     status: LlmLogStatus

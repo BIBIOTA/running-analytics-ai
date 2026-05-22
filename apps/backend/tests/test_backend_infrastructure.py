@@ -157,7 +157,7 @@ class ModelTests(TestCase):
             prompt_version="v1.0.0",
             input_tokens=10,
             output_tokens=20,
-            thoughts_tokens=500,
+            reasoning_tokens=500,
             total_tokens=530,
             latency_ms=1500,
             status=LlmLogStatus.SUCCESS,
@@ -167,11 +167,11 @@ class ModelTests(TestCase):
         self.assertEqual(user.model_dump(by_alias=True)["_id"], "user-1")
         self.assertIsNone(conversation.activity_id)
         self.assertEqual(conversation.messages[0].role, MessageRole.USER)
-        self.assertEqual(log.thoughts_tokens, 500)
+        self.assertEqual(log.reasoning_tokens, 500)
         self.assertEqual(log.total_tokens, 530)
         self.assertEqual(log.status, LlmLogStatus.SUCCESS)
 
-    def test_llm_log_thoughts_tokens_defaults_to_none(self) -> None:
+    def test_llm_log_reasoning_tokens_defaults_to_none(self) -> None:
         from app.models.llm_log import LlmLog, LlmLogStatus
 
         log = LlmLog(
@@ -187,5 +187,5 @@ class ModelTests(TestCase):
             status=LlmLogStatus.SUCCESS,
         )
 
-        self.assertIsNone(log.thoughts_tokens)
-        self.assertIn("thoughts_tokens", log.model_dump())
+        self.assertIsNone(log.reasoning_tokens)
+        self.assertIn("reasoning_tokens", log.model_dump())
