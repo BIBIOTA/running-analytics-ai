@@ -1,3 +1,4 @@
+.worktrees/
 .DS_Store
 __pycache__/
 *.py[cod]
@@ -6,5 +7,5 @@ __pycache__/
 .ruff_cache/
 .venv/
 node_modules/
+dist/
 apps/backend/.env
-api-contract/openapi.json

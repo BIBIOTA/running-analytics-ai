@@ -1,0 +1,184 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Running Analytics AI API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/auth/me": {
+      "get": {
+        "operationId": "getCurrentUser",
+        "tags": ["auth"],
+        "responses": {
+          "200": {
+            "description": "Current authenticated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/activities": {
+      "get": {
+        "operationId": "listActivities",
+        "tags": ["activities"],
+        "responses": {
+          "200": {
+            "description": "Recent running activities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivitySummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/activities/{id}": {
+      "get": {
+        "operationId": "getActivity",
+        "tags": ["activities"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Activity detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/ask": {
+      "post": {
+        "operationId": "askAi",
+        "tags": ["ai"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiAskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SSE response stream",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["id", "display_name"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "profile_image_url": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "ActivitySummary": {
+        "type": "object",
+        "required": ["id", "start_date", "distance_meters", "moving_time_seconds"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "distance_meters": {
+            "type": "number"
+          },
+          "moving_time_seconds": {
+            "type": "integer"
+          },
+          "average_pace_seconds_per_km": {
+            "type": ["number", "null"]
+          }
+        }
+      },
+      "ActivityDetail": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ActivitySummary"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "average_heart_rate": {
+                "type": ["number", "null"]
+              },
+              "elevation_gain_meters": {
+                "type": ["number", "null"]
+              },
+              "gpx_stream_url": {
+                "type": ["string", "null"]
+              }
+            }
+          }
+        ]
+      },
+      "AiAskRequest": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "activity_id": {
+            "type": ["string", "null"]
+          },
+          "activity_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
