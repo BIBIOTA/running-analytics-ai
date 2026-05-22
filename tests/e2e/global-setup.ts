@@ -26,12 +26,13 @@ setup('authenticate via Strava', async ({ page }) => {
   await page.waitForURL(/strava\.com/);
 
   const emailInput = page.getByLabel(/email/i);
-  const isLoginForm = await emailInput.isVisible().catch(() => false);
-
-  if (isLoginForm) {
+  try {
+    await emailInput.waitFor({ state: 'visible', timeout: 5000 });
     await emailInput.fill(email);
     await page.getByLabel(/password/i).fill(password);
     await page.getByRole('button', { name: /log in/i }).click();
+  } catch {
+    // Email input never appeared — already logged in to Strava, proceed to Authorize
   }
 
   // After login, Strava shows the Authorize page. Click Authorize.
