@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from unittest import IsolatedAsyncioTestCase, TestCase
+from unittest.mock import patch
 
 
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
@@ -34,22 +34,22 @@ class AppTests(TestCase):
     def test_create_app_configures_cors_and_health_route(self) -> None:
         from fastapi.middleware.cors import CORSMiddleware
 
-        os.environ.update(
-            {
-                "STRAVA_CLIENT_ID": "client-id",
-                "STRAVA_CLIENT_SECRET": "client-secret",
-                "GEMINI_API_KEY": "gemini-key",
-                "MONGODB_URI": "mongodb://mongodb:27017/running_analytics",
-                "JWT_SECRET": "jwt-secret",
-                "ENCRYPTION_KEY": "a" * 32,
-            }
-        )
-        from app.core.config import get_settings
+        env = {
+            "STRAVA_CLIENT_ID": "client-id",
+            "STRAVA_CLIENT_SECRET": "client-secret",
+            "GEMINI_API_KEY": "gemini-key",
+            "MONGODB_URI": "mongodb://mongodb:27017/running_analytics",
+            "JWT_SECRET": "jwt-secret",
+            "ENCRYPTION_KEY": "a" * 32,
+        }
+        with patch.dict("os.environ", env):
+            from app.core.config import get_settings
 
-        get_settings.cache_clear()
-        from app.main import create_app
+            get_settings.cache_clear()
+            from app.main import create_app
 
-        app = create_app()
+            app = create_app()
+            get_settings.cache_clear()
 
         route_paths = {route.path for route in app.routes}
         self.assertIn("/health", route_paths)
