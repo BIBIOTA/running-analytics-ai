@@ -21,6 +21,7 @@ TEST_ENV = {
     "MONGODB_URI": "mongodb://mongodb:27017/running_analytics",
     "JWT_SECRET": "jwt-secret",
     "ENCRYPTION_KEY": "0123456789abcdef0123456789abcdef",
+    "BACKEND_URL": "http://testserver",
     "FRONTEND_URL": "http://localhost:3000",
 }
 
