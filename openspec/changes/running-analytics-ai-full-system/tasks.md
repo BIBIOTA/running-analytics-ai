@@ -48,11 +48,11 @@
 
 ## 7. 前端基礎框架 (Vite + React + orval)
 
-- [ ] 7.1 建立 `apps/frontend`（`npm create vite` TypeScript + React 18）
-- [ ] 7.2 安裝依賴：shadcn/ui、Tailwind CSS、React Router v6、React Query（tanstack）、leaflet、leaflet-gpx、orval
-- [ ] 7.3 設定 `vite.config.ts`（proxy `/api` → `localhost:8000`）
-- [ ] 7.4 設定 orval config，指向 `api-contract/openapi.json`，輸出至 `src/api/`
-- [ ] 7.5 執行 `make generate-api`，確認 `src/api/` 生成正確 typed hooks
+- [x] 7.1 建立 `apps/frontend`（`npm create vite` TypeScript + React 18）
+- [x] 7.2 安裝依賴：shadcn/ui、Tailwind CSS、React Router v6、React Query（tanstack）、leaflet、leaflet-gpx、orval
+- [x] 7.3 設定 `vite.config.ts`（proxy `/api` → `localhost:8000`）
+- [x] 7.4 設定 orval config，指向 `api-contract/openapi.json`，輸出至 `src/api/`
+- [x] 7.5 執行 `make generate-api`，確認 `src/api/` 生成正確 typed hooks
 
 ## 8. 前端路由 + 認證 Hook
 
