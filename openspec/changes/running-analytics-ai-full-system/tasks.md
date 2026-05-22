@@ -59,50 +59,59 @@
 - [ ] 8.1 實作 `src/hooks/useAuth.ts`：JWT localStorage 管理、讀取 `/auth/me`、logout（清除 token）、401 自動導向 `/login`
 - [ ] 8.2 實作 `src/router.tsx`：React Router v6 路由設定，ProtectedRoute wrapper（無 JWT → 重導向 `/login`），`/callback` token 處理邏輯
 
-## 9. 前端頁面實作（依 Figma 設計稿）
+## 9. 共用元件實作
 
-> **重要**: 實作每個頁面前，MUST 先透過 Figma MCP 查詢設計稿：
-> - `mcp__plugin_figma_figma__get_design_context` — 取得元件規格與 tokens
-> - `mcp__plugin_figma_figma__get_screenshot` — 確認視覺設計
->
-> 需由設計師提供 Figma file key 與各頁面 node-id。
+> **依據**: `docs/superpowers/specs/2026-05-22-shared-components-design.md`
+> **實作前**: 透過 Figma MCP `get_design_context` 確認最新設計（file key `aXWF4fYRx5vUg1JIEyPlNx`）
 
-- [ ] 9.1 查詢 Figma 設計稿：取得 LoginPage 的 file key + node-id，呼叫 Figma MCP 取得設計規格
-- [ ] 9.2 實作 `src/pages/LoginPage.tsx`：Strava OAuth 登入按鈕，依 Figma 設計稿
-- [ ] 9.3 查詢 Figma 設計稿：取得 ActivitiesPage 的設計規格（列表 + AI 面板）
-- [ ] 9.4 實作 `src/components/ActivityCard.tsx`：活動卡片（日期、距離、配速、時間），依 Figma 設計稿
-- [ ] 9.5 實作 `src/pages/ActivitiesPage.tsx`：活動列表渲染（orval hook）+ skeleton loading，依 Figma 設計稿
-- [ ] 9.6 查詢 Figma 設計稿：取得 ActivityDetailPage 的設計規格（指標 + 地圖 + AI 面板）
-- [ ] 9.7 實作 `src/components/ActivityMap.tsx`：Leaflet + leaflet-gpx 地圖元件（GPS 無資料時隱藏）
-- [ ] 9.8 實作 `src/pages/ActivityDetailPage.tsx`：完整活動指標 + ActivityMap，依 Figma 設計稿
+- [ ] 9.0 實作 `src/components/AppHeader.tsx`：Logo + App 名稱 + 使用者頭像/名稱，依 Figma node `26:2`（symbol）
+- [ ] 9.1 實作 `src/components/MetricItem.tsx`：小型指標（label 13px `#8b97a8` + value 18px white），無 icon，供 ActivityCard 使用
+- [ ] 9.2 實作 `src/components/MetricCard.tsx`：大型指標卡（icon + label 12px + value 22px bold + unit 12px），border-radius 10px，valueColor prop，供 ActivityDetail Metrics Grid 使用
+- [ ] 9.3 實作 `src/components/ActivityTag.tsx`：橘色標籤（`rgba(249,115,22,0.15)` 背景、`#f97316` 文字、border-radius 4px），無 variant
+- [ ] 9.4 實作 `src/components/ChatMessage.tsx`：role="ai|user"，isStreaming 時末尾顯示 ▌ blink 游標
+- [ ] 9.5 實作 `src/components/AiChatPanel.tsx`：Chat Header + 訊息捲動區（ChatMessage[]）+ ChatInputBar（input + 橘色送出按鈕），scope prop 控制預設 prompt，寬度由父層決定
 
-## 10. AI 問答前端元件
+## 10. 前端頁面實作（依 Figma 設計稿）
 
-- [ ] 10.1 實作 `src/hooks/useSSE.ts`：fetch + ReadableStream SSE 解析，狀態機（idle/connecting/streaming/done/error），AbortController 清理
-- [ ] 10.2 實作 `src/hooks/useConversation.ts`：載入對話歷史（per-activity 或 list-page），SSE 完成後 append 新訊息
-- [ ] 10.3 查詢 Figma 設計稿：取得 AiChat 面板的設計規格
-- [ ] 10.4 實作 `src/components/AiChat.tsx`：多輪對話 UI、SSE 串流顯示（chunk 即時 append）、預設 prompt、錯誤狀態，依 Figma 設計稿
-- [ ] 10.5 將 AiChat 面板整合至 ActivitiesPage（list-page scope）
-- [ ] 10.6 將 AiChat 面板整合至 ActivityDetailPage（per-activity scope）
+> **Figma**: file key `aXWF4fYRx5vUg1JIEyPlNx`，Login Page `0:1`，Activities Page `3:2`，Activity Detail Page `3:3`
+> **實作前**: 呼叫 `mcp__plugin_figma_figma__get_design_context` 取得最新規格，`get_screenshot` 確認視覺
 
-## 11. 前端測試
+- [ ] 10.1 查詢 Figma node `0:1`：取得 LoginPage 設計規格
+- [ ] 10.2 實作 `src/pages/LoginPage.tsx`：Strava OAuth 登入按鈕，依 Figma 設計稿
+- [ ] 10.3 查詢 Figma node `3:2`：取得 ActivitiesPage 設計規格（列表 + AI 面板）
+- [ ] 10.4 實作 `src/components/ActivityCard.tsx`：活動卡片（日期、活動名稱、ActivityTag），組合 MetricItem × 5，依 Figma 設計稿
+- [ ] 10.5 實作 `src/pages/ActivitiesPage.tsx`：AppHeader + 活動列表（orval hook）+ skeleton loading + AiChatPanel scope="list"，依 Figma 設計稿
+- [ ] 10.6 查詢 Figma node `3:3`：取得 ActivityDetailPage 設計規格（指標 + 地圖 + AI 面板）
+- [ ] 10.7 實作 `src/components/ActivityMap.tsx`：Leaflet + leaflet-gpx 地圖元件（GPS 無資料時隱藏）
+- [ ] 10.8 實作 `src/pages/ActivityDetailPage.tsx`：AppHeader + Title Row + ActivityMap + MetricCard × 6 + Splits Table + AiChatPanel scope="activity"，依 Figma 設計稿
 
-- [ ] 11.1 設定 Vitest + React Testing Library
-- [ ] 11.2 撰寫 `useSSE.test.ts`：EventSource mock、狀態轉換（idle→connecting→streaming→done）、error 狀態
-- [ ] 11.3 撰寫 `useAuth.test.ts`：JWT 過期偵測、logout 清除、401 重導向
-- [ ] 11.4 撰寫 `AiChat.test.tsx`：SSE chunk 渲染、error 狀態顯示
+## 11. AI 問答前端 Hooks
 
-## 12. 靜態分析設定
+- [ ] 11.1 實作 `src/hooks/useSSE.ts`：fetch + ReadableStream SSE 解析，狀態機（idle/connecting/streaming/done/error），AbortController 清理
+- [ ] 11.2 實作 `src/hooks/useConversation.ts`：載入對話歷史（per-activity 或 list-page），SSE 完成後 append 新訊息
+- [ ] 11.3 將 useSSE + useConversation 串接至 AiChatPanel
 
-- [ ] 12.1 設定後端 `ruff`（linting + import sorting）+ `mypy`（strict mode）
-- [ ] 12.2 設定前端 `ESLint`（react-hooks、typescript-eslint rules）+ `Prettier`
-- [ ] 12.3 在 `Makefile lint` target 中串接所有 linting 工具
-- [ ] 12.4 執行 `make lint` 確認零錯誤
+## 12. 前端測試
 
-## 13. 端對端驗證
+- [ ] 12.1 設定 Vitest + React Testing Library
+- [ ] 12.2 撰寫 `MetricItem.test.tsx`、`MetricCard.test.tsx`：label/value 渲染、valueColor 套用
+- [ ] 12.3 撰寫 `ActivityTag.test.tsx`：背景色與文字色正確
+- [ ] 12.4 撰寫 `ChatMessage.test.tsx`：ai/user layout、isStreaming ▌ 游標
+- [ ] 12.5 撰寫 `AiChatPanel.test.tsx`：預設 prompt per scope、新訊息捲動至底部
+- [ ] 12.6 撰寫 `useSSE.test.ts`：EventSource mock、狀態轉換（idle→connecting→streaming→done）、error 狀態
+- [ ] 12.7 撰寫 `useAuth.test.ts`：JWT 過期偵測、logout 清除、401 重導向
 
-- [ ] 13.1 執行 `make dev`，確認 docker-compose 三個服務全部啟動
-- [ ] 13.2 完整走過 Strava OAuth 登入流程，確認 JWT 正確發行並存入 localStorage
-- [ ] 13.3 驗證活動列表頁顯示正確，AI 問答面板 SSE 串流正常
-- [ ] 13.4 驗證活動詳情頁 Leaflet 地圖渲染正確，per-activity AI 對話歷史持久化
-- [ ] 13.5 執行 `make test` 確認全部測試通過
+## 13. 靜態分析設定
+
+- [ ] 13.1 設定後端 `ruff`（linting + import sorting）+ `mypy`（strict mode）
+- [ ] 13.2 設定前端 `ESLint`（react-hooks、typescript-eslint rules）+ `Prettier`
+- [ ] 13.3 在 `Makefile lint` target 中串接所有 linting 工具
+- [ ] 13.4 執行 `make lint` 確認零錯誤
+
+## 14. 端對端驗證
+
+- [ ] 14.1 執行 `make dev`，確認 docker-compose 三個服務全部啟動
+- [ ] 14.2 完整走過 Strava OAuth 登入流程，確認 JWT 正確發行並存入 localStorage
+- [ ] 14.3 驗證活動列表頁顯示正確，AI 問答面板 SSE 串流正常
+- [ ] 14.4 驗證活動詳情頁 Leaflet 地圖渲染正確，per-activity AI 對話歷史持久化
+- [ ] 14.5 執行 `make test` 確認全部測試通過

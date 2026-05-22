@@ -90,6 +90,37 @@
 
 **理由**: XML tag 隔離讓 LLM 能明確區分受信任指令與用戶輸入，防止 Prompt Injection。System prompt 明確指示忽略 `<user_input>` 中的規則修改嘗試。
 
+### D8: 前端共用元件設計
+
+**決策**: 從 Figma 設計稿提取 6 個共用元件（`AppHeader`、`MetricItem`、`MetricCard`、`ActivityTag`、`ChatMessage`、`AiChatPanel`），採扁平結構放置於 `src/components/`，`ChatMessage` 獨立匯出（非封裝於 AiChatPanel 內部）。
+
+**理由**: `MetricItem`（Activity Card 用，無 icon，value 18px）與 `MetricCard`（Detail Grid 用，有 icon，value 22px，帶顏色）視覺結構差異明顯，用兩個獨立元件比單一元件加 `size` prop 更清晰。`ChatMessage` 獨立匯出便於單獨測試及未來擴充。
+
+**Figma 參照**:
+- 設計稿 file key: `aXWF4fYRx5vUg1JIEyPlNx`
+- Activities Page node: `3:2`（Figma page `3:2`，frame `8:2`）
+- Activity Detail Page node: `3:3`（Figma page `3:3`，frame `15:2`）
+- App Header Figma symbol: node `26:2`（instance `28:2` 在 Detail Page）
+
+**MetricCard value 顏色**（從 Figma 直接取值）:
+
+| Metric | valueColor |
+|--------|-----------|
+| 距離 | `#f97316` |
+| 配速 | `#22c55e` |
+| 時間 | `#5e98f8` |
+| 心率 | `#ef4444` |
+| 爬升 | `#d0ab18` |
+| 熱量 | `#f97316` |
+
+**ActivityTag**: 所有類型共用同一樣式（`rgba(249,115,22,0.15)` 背景 + `#f97316` 文字），不需要 variant prop。
+
+**完整 spec**: `docs/superpowers/specs/2026-05-22-shared-components-design.md`
+
+**替代方案**: 單一 `MetricDisplay` 元件加 `size="sm|lg"` prop（API 較複雜，YAGNI 考量下捨棄）；AiChatPanel 封裝所有子元件（減少測試彈性，捨棄）。
+
+---
+
 ## Risks / Trade-offs
 
 - **Strava token 加密 key 遺失** → 所有用戶需重新授權。緩解：`ENCRYPTION_KEY` 存於 `.env`，禁止 commit。
@@ -101,6 +132,6 @@
 
 ## Open Questions
 
-- Figma 設計稿 file key 與各 page 的 node-id 為何？（實作前需由設計師提供或在 Figma MCP 中查詢）
+- ~~Figma 設計稿 file key 與各 page 的 node-id 為何？~~ **已解決**：file key `aXWF4fYRx5vUg1JIEyPlNx`；Login Page `0:1`、Activities Page `3:2`、Activity Detail Page `3:3`。
 - `gemini-3.1-pro-preview` 是否為最終 model ID？需在 Gemini API 文件確認。
 - List-page conversation 的「最新一筆」語意：是否需要讓用戶手動開新對話？（目前設計為 auto-upsert 最新一筆）
