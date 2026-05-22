@@ -5,7 +5,7 @@ from typing import Annotated, Any
 from urllib.parse import urlencode
 
 import httpx
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
@@ -50,13 +50,13 @@ class StravaOAuthClient:
 
 @router.get("/strava")
 async def strava_login(
-    request: Request,
     settings: Annotated[Settings, Depends(get_settings)],
 ) -> RedirectResponse:
+    callback_url = settings.backend_url.rstrip("/") + "/auth/strava/callback"
     query = urlencode(
         {
             "client_id": settings.strava_client_id,
-            "redirect_uri": str(request.url_for("strava_callback")),
+            "redirect_uri": callback_url,
             "response_type": "code",
             "scope": STRAVA_SCOPE,
         }

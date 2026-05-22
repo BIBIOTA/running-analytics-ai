@@ -17,11 +17,11 @@
 
 ## 3. 認證：Strava OAuth + JWT
 
-- [ ] 3.1 實作 `app/core/security.py`：HS256 JWT encode/decode（1 小時到期）；AES-256 encrypt/decrypt（用於 Strava tokens）
-- [ ] 3.2 實作 `app/core/dependencies.py`：`get_current_user` FastAPI dependency（驗證 Bearer JWT，載入 MongoDB user）
-- [ ] 3.3 實作 `app/api/auth.py`：`GET /auth/strava`（OAuth redirect）、`GET /auth/strava/callback`（code exchange、upsert user、發行 JWT、重導向前端）、`GET /auth/me`
+- [x] 3.1 實作 `app/core/security.py`：HS256 JWT encode/decode（1 小時到期）；AES-256 encrypt/decrypt（用於 Strava tokens）
+- [x] 3.2 實作 `app/core/dependencies.py`：`get_current_user` FastAPI dependency（驗證 Bearer JWT，載入 MongoDB user）
+- [x] 3.3 實作 `app/api/auth.py`：`GET /auth/strava`（OAuth redirect）、`GET /auth/strava/callback`（code exchange、upsert user、發行 JWT、重導向前端）、`GET /auth/me`
 - [ ] 3.4 實作 `app/services/strava.py`：`exchange_code()`、`refresh_token_if_needed()`（檢查 expires_at 5 分鐘）、`get_activities()`、`get_activity_detail()`、`get_activity_streams()`
-- [ ] 3.5 撰寫 `tests/test_auth.py`：JWT round-trip 測試、OAuth callback 流程測試（httpx + mongomock-motor）
+- [x] 3.5 撰寫 `tests/test_auth.py`：JWT round-trip 測試、OAuth callback 流程測試（httpx + mongomock-motor）
 
 ## 4. 活動 API
 
