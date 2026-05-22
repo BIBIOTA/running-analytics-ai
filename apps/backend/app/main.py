@@ -9,16 +9,15 @@ from app.core.config import get_settings
 from app.db.mongo import mongo
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    settings = get_settings()
-    await mongo.connect(settings)
-    yield
-    await mongo.close()
-
-
 def create_app() -> FastAPI:
     settings = get_settings()
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        await mongo.connect(settings)
+        yield
+        await mongo.close()
+
     app = FastAPI(title="Running Analytics AI", version="0.1.0", lifespan=lifespan)
     app.add_middleware(
         CORSMiddleware,

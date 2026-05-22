@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from typing import Any, Callable
 
 from app.core.config import Settings
@@ -52,11 +53,13 @@ class MongoDatabase:
         return self.database["llm_logs"]
 
     async def create_indexes(self) -> None:
-        await self.users.create_index([("strava_athlete_id", 1)], unique=True)
-        await self.conversations.create_index(
-            [("user_id", 1), ("activity_id", 1), ("updated_at", -1)]
+        await asyncio.gather(
+            self.users.create_index([("strava_athlete_id", 1)], unique=True),
+            self.conversations.create_index(
+                [("user_id", 1), ("activity_id", 1), ("updated_at", -1)]
+            ),
+            self.llm_logs.create_index([("user_id", 1), ("created_at", -1)]),
         )
-        await self.llm_logs.create_index([("user_id", 1), ("created_at", -1)])
 
 
 mongo = MongoDatabase()
