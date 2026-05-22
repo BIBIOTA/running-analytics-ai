@@ -8,4 +8,5 @@ __pycache__/
 .venv/
 node_modules/
 dist/
+*.egg-info/
 apps/backend/.env
