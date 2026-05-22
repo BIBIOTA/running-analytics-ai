@@ -1,19 +1,19 @@
 ## 1. 專案基礎建設 (Monorepo + Docker)
 
-- [ ] 1.1 建立 monorepo 目錄結構：`apps/frontend`、`apps/backend`、`api-contract`、`docs`
-- [ ] 1.2 建立根目錄 `package.json`（npm workspaces）
-- [ ] 1.3 撰寫 `docker-compose.yml`（frontend:3000、backend:8000、mongodb:27017）
-- [ ] 1.4 撰寫 `docker-compose.override.yml`（uvicorn --reload、Vite dev mode）
-- [ ] 1.5 撰寫 `Makefile`：`dev`、`lint`、`test`、`generate-api` targets
-- [ ] 1.6 建立 `apps/backend/.env.example`，列出所有必填 env vars
+- [x] 1.1 建立 monorepo 目錄結構：`apps/frontend`、`apps/backend`、`api-contract`、`docs`
+- [x] 1.2 建立根目錄 `package.json`（npm workspaces）
+- [x] 1.3 撰寫 `docker-compose.yml`（frontend:3000、backend:8000、mongodb:27017）
+- [x] 1.4 撰寫 `docker-compose.override.yml`（uvicorn --reload、Vite dev mode）
+- [x] 1.5 撰寫 `Makefile`：`dev`、`lint`、`test`、`generate-api` targets
+- [x] 1.6 建立 `apps/backend/.env.example`，列出所有必填 env vars
 
 ## 2. 後端基礎框架 (FastAPI + MongoDB)
 
-- [ ] 2.1 建立 `apps/backend/pyproject.toml`（fastapi、motor、pydantic-settings、python-jose、cryptography、google-generativeai、ruff、mypy、pytest、pytest-asyncio、httpx、mongomock-motor）
-- [ ] 2.2 實作 `app/main.py`：FastAPI app 建立、CORS middleware（允許 localhost:3000）、router 掛載、lifespan event
-- [ ] 2.3 實作 `app/core/config.py`：Pydantic Settings 讀取 `STRAVA_CLIENT_ID`、`STRAVA_CLIENT_SECRET`、`GEMINI_API_KEY`、`MONGODB_URI`、`JWT_SECRET`、`ENCRYPTION_KEY`、`FRONTEND_URL`
-- [ ] 2.4 實作 `app/db/mongo.py`：Motor async client singleton，collection accessors（users、conversations、llm_logs），啟動時建立 indexes
-- [ ] 2.5 實作 `app/models/user.py`、`conversation.py`、`llm_log.py` Pydantic 模型
+- [x] 2.1 建立 `apps/backend/pyproject.toml`（fastapi、motor、pydantic-settings、python-jose、cryptography、google-generativeai、ruff、mypy、pytest、pytest-asyncio、httpx、mongomock-motor）
+- [x] 2.2 實作 `app/main.py`：FastAPI app 建立、CORS middleware（允許 localhost:3000）、router 掛載、lifespan event
+- [x] 2.3 實作 `app/core/config.py`：Pydantic Settings 讀取 `STRAVA_CLIENT_ID`、`STRAVA_CLIENT_SECRET`、`GEMINI_API_KEY`、`MONGODB_URI`、`JWT_SECRET`、`ENCRYPTION_KEY`、`FRONTEND_URL`
+- [x] 2.4 實作 `app/db/mongo.py`：Motor async client singleton，collection accessors（users、conversations、llm_logs），啟動時建立 indexes
+- [x] 2.5 實作 `app/models/user.py`、`conversation.py`、`llm_log.py` Pydantic 模型
 
 ## 3. 認證：Strava OAuth + JWT
 
@@ -48,11 +48,11 @@
 
 ## 7. 前端基礎框架 (Vite + React + orval)
 
-- [ ] 7.1 建立 `apps/frontend`（`npm create vite` TypeScript + React 18）
-- [ ] 7.2 安裝依賴：shadcn/ui、Tailwind CSS、React Router v6、React Query（tanstack）、leaflet、leaflet-gpx、orval
-- [ ] 7.3 設定 `vite.config.ts`（proxy `/api` → `localhost:8000`）
-- [ ] 7.4 設定 orval config，指向 `api-contract/openapi.json`，輸出至 `src/api/`
-- [ ] 7.5 執行 `make generate-api`，確認 `src/api/` 生成正確 typed hooks
+- [x] 7.1 建立 `apps/frontend`（`npm create vite` TypeScript + React 18）
+- [x] 7.2 安裝依賴：shadcn/ui、Tailwind CSS、React Router v6、React Query（tanstack）、leaflet、leaflet-gpx、orval
+- [x] 7.3 設定 `vite.config.ts`（proxy `/api` → `localhost:8000`）
+- [x] 7.4 設定 orval config，指向 `api-contract/openapi.json`，輸出至 `src/api/`
+- [x] 7.5 執行 `make generate-api`，確認 `src/api/` 生成正確 typed hooks
 
 ## 8. 前端路由 + 認證 Hook
 
