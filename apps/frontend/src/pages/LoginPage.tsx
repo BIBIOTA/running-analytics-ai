@@ -5,7 +5,9 @@ export function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-[#0c0e14] px-6 py-12">
       <section className="w-full max-w-[420px] rounded-2xl bg-[#181e2e] px-12 py-10 shadow-2xl">
         <div className="flex flex-col items-center text-center">
-          <img src="/logo.png" alt="Running Analytics AI" className="h-20 w-20 rounded-2xl" />
+          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-2">
+            <img src="/logo.png" alt="Running Analytics AI" className="h-full w-full object-contain" />
+          </div>
           <h1 className="mt-5 text-2xl font-bold text-white">Running Analytics AI</h1>
           <p className="mt-3 text-sm leading-relaxed text-[#8b93a5]">
             連結你的 Strava，用 AI 深度分析每次跑步表現
