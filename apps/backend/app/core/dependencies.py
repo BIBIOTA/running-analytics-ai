@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Annotated
 
+from bson import ObjectId
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
@@ -24,7 +25,7 @@ async def get_current_user(
     except InvalidTokenError as exc:
         raise unauthorized from exc
 
-    user = await mongo.users.find_one({"_id": payload["sub"]})
+    user = await mongo.users.find_one({"_id": ObjectId(payload["sub"])})
     if user is None:
         raise unauthorized
     return User.model_validate(user)
