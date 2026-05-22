@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     jwt_secret: str
     encryption_key: str
     frontend_url: str = "http://localhost:3000"
+    backend_url: str = "http://localhost:8000"
     mongodb_database: str = "running_analytics"
     gemini_model: str = "gemini-3.1-pro-preview"
 
