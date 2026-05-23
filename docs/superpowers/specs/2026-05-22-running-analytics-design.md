@@ -79,8 +79,8 @@ running-analytics-ai/
 │   └── openapi.json            # single source of truth for API contract
 ├── docs/
 │   └── superpowers/specs/
-├── docker-compose.yml
-├── docker-compose.override.yml
+├── docker-compose.base.yml
+├── docker-compose.dev.yml
 ├── Makefile
 └── package.json                # npm workspaces root
 ```
@@ -442,7 +442,7 @@ volumes:
   mongodb_data:
 ```
 
-`docker-compose.override.yml` handles local dev overrides (e.g., `uvicorn --reload`, Vite dev mode).
+`docker-compose.dev.yml` handles local dev overrides (e.g., `uvicorn --reload`, Vite dev mode).
 
 ---
 

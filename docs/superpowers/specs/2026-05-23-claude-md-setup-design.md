@@ -35,14 +35,14 @@
 
 ### 3. 啟動主 Docker 服務
 
-- `make dev`（`docker compose up`）
+- `make dev`（`docker compose -f docker-compose.base.yml -f docker-compose.dev.yml up`）
 - 三個服務：mongodb:27017、backend:8000、frontend:3000
 - 前置條件：`apps/backend/.env` 需存在
 
 ### 4. 啟動 Worktree Docker 服務
 
-- Backend worktree：`WORKTREE_PATH=$(pwd) docker compose -f docker-compose.backend-local.yml up`（port 8001）
-- Frontend worktree：`WORKTREE_PATH=$(pwd) docker compose -f docker-compose.frontend-worktree.yml up`（port 3001）
+- Backend worktree：`WORKTREE_PATH=$(pwd) docker compose -f docker-compose.worktree-backend.yml up`（port 8001）
+- Frontend worktree：`WORKTREE_PATH=$(pwd) docker compose -f docker-compose.worktree-frontend.yml up`（port 3001）
 - `WORKTREE_PATH` 必須設為 worktree 的絕對路徑
 
 ### 5. 執行測試
