@@ -71,6 +71,22 @@ class FakeUsersCollection:
             return self.document
         return None
 
+    async def find_one_and_update(
+        self,
+        query: dict[str, Any],
+        update: dict[str, Any],
+        *,
+        upsert: bool = False,
+        return_document: Any = None,
+    ) -> dict[str, Any] | None:
+        set_on_insert = update.get("$setOnInsert", {})
+        set_values = update.get("$set", {})
+        if self.document is None:
+            self.document = {"_id": "user-123", **set_on_insert, **set_values}
+        else:
+            self.document.update(set_values)
+        return self.document
+
     async def update_one(
         self,
         query: dict[str, Any],
@@ -168,7 +184,7 @@ class AuthEndpointTests(IsolatedAsyncioTestCase):
             },
         }
 
-        with patch("app.api.auth.StravaOAuthClient.exchange_code", return_value=strava_response):
+        with patch("app.api.auth.strava_service.exchange_code", return_value=strava_response):
             async with AsyncClient(
                 transport=ASGITransport(app=self.app),
                 base_url="http://testserver",

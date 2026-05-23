@@ -81,9 +81,8 @@ async def upsert_strava_user(token_response: dict[str, Any], *, settings: Settin
     user = await mongo.users.find_one_and_update(
         {"strava_athlete_id": strava_athlete_id},
         {
-            "$setOnInsert": {"created_at": now},
+            "$setOnInsert": {"created_at": now, "strava_athlete_id": strava_athlete_id},
             "$set": {
-                "strava_athlete_id": strava_athlete_id,
                 "display_name": display_name,
                 "profile_image_url": athlete.get("profile") or athlete.get("profile_medium"),
                 "strava_access_token": encrypt_token(
