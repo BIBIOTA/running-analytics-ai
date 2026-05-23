@@ -1,3 +1,34 @@
+# CLAUDE.md Setup Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** 在專案根目錄建立 `CLAUDE.md`（包含架構、Docker 啟動方式、測試指令），並將 `AGENTS.md` symlink 至 `CLAUDE.md`。
+
+**Architecture:** 直接在根目錄建立 `CLAUDE.md` 靜態文件，內容為 AI agent 導向的精簡參考。`AGENTS.md` 以 symlink 指向 `CLAUDE.md`，讓 Gemini 等 agent 讀取相同內容，不重複維護。
+
+**Tech Stack:** Markdown、bash（ln -s）
+
+---
+
+## File Map
+
+| Action | Path |
+|--------|------|
+| Create | `CLAUDE.md` |
+| Create (symlink) | `AGENTS.md → CLAUDE.md` |
+
+---
+
+## Task 1: 建立 CLAUDE.md
+
+**Files:**
+- Create: `CLAUDE.md`
+
+- [ ] **Step 1: 建立 CLAUDE.md**
+
+在專案根目錄建立 `CLAUDE.md`，內容如下：
+
+```markdown
 # Running Analytics AI
 
 FastAPI (Python 3.12) + Vite/React 18 (TypeScript) monorepo。
@@ -6,7 +37,7 @@ MongoDB 儲存使用者、對話紀錄與 LLM 觀測日誌。
 
 ## Monorepo 結構
 
-```
+\`\`\`
 running-analytics-ai/
 ├── apps/
 │   ├── backend/          # FastAPI + Python 3.12
@@ -31,14 +62,14 @@ running-analytics-ai/
 ├── docker-compose.yml
 ├── docker-compose.override.yml
 └── Makefile
-```
+\`\`\`
 
 ## 啟動主 Docker 服務
 
-```bash
+\`\`\`bash
 make dev
 # 等同於 docker compose up
-```
+\`\`\`
 
 啟動以下三個服務：
 
@@ -55,16 +86,16 @@ make dev
 每個 worktree 位於 `.worktrees/<name>/`，使用獨立 port 避免與主服務衝突。
 
 **Backend worktree（port 8001）：**
-```bash
+\`\`\`bash
 cd .worktrees/<name>
 WORKTREE_PATH=$(pwd) docker compose -f docker-compose.backend-local.yml up
-```
+\`\`\`
 
 **Frontend worktree（port 3001）：**
-```bash
+\`\`\`bash
 cd .worktrees/<name>
 WORKTREE_PATH=$(pwd) docker compose -f docker-compose.frontend-worktree.yml up
-```
+\`\`\`
 
 | 服務 | Port | Compose 檔案 |
 |------|------|-------------|
@@ -77,17 +108,17 @@ WORKTREE_PATH=$(pwd) docker compose -f docker-compose.frontend-worktree.yml up
 ## 執行測試
 
 ### 單元測試（Backend）
-```bash
+\`\`\`bash
 make test
 # 等同於 cd apps/backend && pytest
-```
+\`\`\`
 
 ### Lint 與靜態分析
-```bash
+\`\`\`bash
 make lint
 # backend: ruff check + ruff format --check + mypy
 # frontend: npm run lint（若 apps/frontend/package.json 存在）
-```
+\`\`\`
 
 ### E2E 測試（Playwright）
 
@@ -95,20 +126,20 @@ make lint
 1. `make dev` 已啟動（backend: http://localhost:8000，frontend: http://localhost:3000）
 2. `tests/e2e/.env.e2e` 已設定真實 Strava 測試帳號憑證（參考 `tests/e2e/.env.e2e.example`）
 
-```bash
+\`\`\`bash
 make test-e2e        # headless 執行
 make test-e2e-ui     # 開啟 Playwright UI 模式
-```
+\`\`\`
 
 ## API Contract
 
 OpenAPI contract 以 `api-contract/openapi.json` 為唯一來源：
 
-```bash
+\`\`\`bash
 make generate-api
 # 1. curl http://localhost:8000/openapi.json → api-contract/openapi.json
 # 2. orval 讀取 openapi.json → 生成 apps/frontend/src/api/（React Query hooks）
-```
+\`\`\`
 
 > 執行前需確保 backend 已啟動。`apps/frontend/src/api/` 為自動生成，勿手動編輯。
 
@@ -117,16 +148,51 @@ make generate-api
 - **環境變數**：後端讀取 `apps/backend/.env`，欄位參考 `apps/backend/.env.example`（`STRAVA_CLIENT_ID`、`STRAVA_CLIENT_SECRET`、`GEMINI_API_KEY`、`JWT_SECRET`、`ENCRYPTION_KEY`、`MONGODB_URI`）
 - **API 異動**：修改後端 API 後需重新執行 `make generate-api` 同步前端 client
 - **型別安全**：前端所有 API 呼叫須使用 orval 生成的 hooks，後端維持 mypy strict 模式
-- **完整設計文件**：`docs/superpowers/specs/2026-05-22-running-analytics-design.md`（架構決策、API schema、MongoDB schema、LLM 整合細節）
+- **完整設計文件**：`docs/superpowers/specs/2026-05-22-running-analytics-design.md`
+```
 
-## PR 前必做：OpenSpec 進度同步
+- [ ] **Step 2: 確認檔案已建立**
 
-**在執行 `gh pr create` 前，必須先確認 OpenSpec 任務進度已更新。**
+```bash
+ls -la CLAUDE.md
+head -5 CLAUDE.md
+```
 
-1. 執行 `git diff main...HEAD --name-only` 確認此次變更的檔案
-2. 執行 `find openspec/changes -name tasks.md -not -path '*/archive/*'` 找出所有有效任務清單
-3. 讀取每個 `tasks.md`，找出 `- [ ]`（未完成）任務
-4. 比對變更檔案，若任務已完成則將 `- [ ]` 改為 `- [x]`
-5. 若有修改：`git add openspec/ && git commit -m 'chore(openspec): mark completed tasks before PR'`
+預期輸出：顯示 `CLAUDE.md` 存在，第一行為 `# Running Analytics AI`
 
-> Claude Code 已透過 `.claude/settings.json` 自動執行此檢查。Codex 透過 `.codex/hooks.json` 自動執行。
+- [ ] **Step 3: Commit**
+
+```bash
+git add CLAUDE.md
+git commit -m "docs: add CLAUDE.md with project architecture and dev commands"
+```
+
+---
+
+## Task 2: 建立 AGENTS.md symlink
+
+**Files:**
+- Create (symlink): `AGENTS.md → CLAUDE.md`
+
+- [ ] **Step 1: 建立 symlink**
+
+```bash
+ln -s CLAUDE.md AGENTS.md
+```
+
+- [ ] **Step 2: 確認 symlink 正確**
+
+```bash
+ls -la AGENTS.md
+# 預期：AGENTS.md -> CLAUDE.md
+
+head -5 AGENTS.md
+# 預期：與 CLAUDE.md 內容相同，第一行為 # Running Analytics AI
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add AGENTS.md
+git commit -m "docs: symlink AGENTS.md to CLAUDE.md"
+```
