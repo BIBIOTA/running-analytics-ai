@@ -1,0 +1,16 @@
+{
+  "PreToolUse": [
+    {
+      "matcher": "shell",
+      "hooks": [
+        {
+          "type": "command",
+          "if": "shell(gh pr *)",
+          "command": "claude --print --allowedTools 'Bash,Read,Edit' 'Check if OpenSpec tasks need to be updated before this PR. Steps: 1) run git diff main...HEAD --name-only to see changed files 2) find openspec/changes -name tasks.md -not -path */archive/* 3) read each tasks.md and identify incomplete tasks (- [ ]) 4) for each incomplete task check if changed files indicate implementation is done 5) if tasks should be marked complete edit tasks.md (- [ ] to - [x]) 6) if changes were made run: git add openspec/ && git commit -m \"chore(openspec): mark completed tasks before PR\" 7) report what was updated or confirm already up to date. Be conservative: only mark complete if clearly implemented.' 2>/dev/null || true",
+          "timeout": 120,
+          "statusMessage": "檢查 OpenSpec 實作進度..."
+        }
+      ]
+    }
+  ]
+}
