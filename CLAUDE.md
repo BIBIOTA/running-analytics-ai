@@ -27,6 +27,7 @@ running-analytics-ai/
 │   └── openapi.json      # API contract 唯一來源
 ├── tests/
 │   └── e2e/              # Playwright E2E 測試
+├── openspec/             # 任務追蹤與進度同步
 ├── docs/superpowers/     # 設計文件與實作計畫
 ├── docker-compose.base.yml
 ├── docker-compose.dev.yml

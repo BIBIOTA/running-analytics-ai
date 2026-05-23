@@ -35,7 +35,7 @@
 
 ### 3. 啟動主 Docker 服務
 
-- `make dev`（`docker compose up`）
+- `make dev`（`docker compose -f docker-compose.base.yml -f docker-compose.dev.yml up`）
 - 三個服務：mongodb:27017、backend:8000、frontend:3000
 - 前置條件：`apps/backend/.env` 需存在
 
