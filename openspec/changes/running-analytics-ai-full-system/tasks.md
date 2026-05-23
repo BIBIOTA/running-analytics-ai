@@ -76,8 +76,8 @@
 > **Figma**: file key `aXWF4fYRx5vUg1JIEyPlNx`，Login Page `0:1`，Activities Page `3:2`，Activity Detail Page `3:3`
 > **實作前**: 呼叫 `mcp__plugin_figma_figma__get_design_context` 取得最新規格，`get_screenshot` 確認視覺
 
-- [ ] 10.1 查詢 Figma node `0:1`：取得 LoginPage 設計規格
-- [ ] 10.2 實作 `src/pages/LoginPage.tsx`：Strava OAuth 登入按鈕，依 Figma 設計稿
+- [x] 10.1 查詢 Figma node `0:1`：取得 LoginPage 設計規格
+- [x] 10.2 實作 `src/pages/LoginPage.tsx`：Strava OAuth 登入按鈕，依 Figma 設計稿
 - [ ] 10.3 查詢 Figma node `3:2`：取得 ActivitiesPage 設計規格（列表 + AI 面板）
 - [ ] 10.4 實作 `src/components/ActivityCard.tsx`：活動卡片（日期、活動名稱、ActivityTag），組合 MetricItem × 5，依 Figma 設計稿
 - [ ] 10.5 實作 `src/pages/ActivitiesPage.tsx`：AppHeader + 活動列表（orval hook）+ skeleton loading + AiChatPanel scope="list"，依 Figma 設計稿
