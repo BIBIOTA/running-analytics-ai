@@ -117,4 +117,4 @@ make generate-api
 - **環境變數**：後端讀取 `apps/backend/.env`，欄位參考 `apps/backend/.env.example`（`STRAVA_CLIENT_ID`、`STRAVA_CLIENT_SECRET`、`GEMINI_API_KEY`、`JWT_SECRET`、`ENCRYPTION_KEY`、`MONGODB_URI`）
 - **API 異動**：修改後端 API 後需重新執行 `make generate-api` 同步前端 client
 - **型別安全**：前端所有 API 呼叫須使用 orval 生成的 hooks，後端維持 mypy strict 模式
-- **完整設計文件**：`docs/superpowers/specs/2026-05-22-running-analytics-design.md`
+- **完整設計文件**：`docs/superpowers/specs/2026-05-22-running-analytics-design.md`（架構決策、API schema、MongoDB schema、LLM 整合細節）
