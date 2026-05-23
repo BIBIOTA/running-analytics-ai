@@ -12,7 +12,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - ../../apps/backend/.env
+      - apps/backend/.env
     environment:
       MONGODB_URI: mongodb://mongodb:27017/running_analytics
       FRONTEND_URL: http://localhost:3000
