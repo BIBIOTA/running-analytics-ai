@@ -81,11 +81,16 @@ class FakeUsersCollection:
     ) -> dict[str, Any] | None:
         set_on_insert = update.get("$setOnInsert", {})
         set_values = update.get("$set", {})
-        if self.document is None:
+        matches = self.document is not None and all(
+            self.document.get(k) == v for k, v in query.items()
+        )
+        if matches:
+            self.document.update(set_values)  # type: ignore[union-attr]
+            return self.document
+        if upsert:
             self.document = {"_id": "user-123", **set_on_insert, **set_values}
-        else:
-            self.document.update(set_values)
-        return self.document
+            return self.document
+        return None
 
     async def update_one(
         self,
