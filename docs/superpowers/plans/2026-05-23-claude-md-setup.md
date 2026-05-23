@@ -59,8 +59,8 @@ running-analytics-ai/
 ├── tests/
 │   └── e2e/              # Playwright E2E 測試
 ├── docs/superpowers/     # 設計文件與實作計畫
-├── docker-compose.yml
-├── docker-compose.override.yml
+├── docker-compose.base.yml
+├── docker-compose.dev.yml
 └── Makefile
 \`\`\`
 
@@ -68,7 +68,7 @@ running-analytics-ai/
 
 \`\`\`bash
 make dev
-# 等同於 docker compose up
+# 等同於 docker compose -f docker-compose.base.yml -f docker-compose.dev.yml up
 \`\`\`
 
 啟動以下三個服務：
@@ -88,19 +88,19 @@ make dev
 **Backend worktree（port 8001）：**
 \`\`\`bash
 cd .worktrees/<name>
-WORKTREE_PATH=$(pwd) docker compose -f docker-compose.backend-local.yml up
+WORKTREE_PATH=$(pwd) docker compose -f docker-compose.worktree-backend.yml up
 \`\`\`
 
 **Frontend worktree（port 3001）：**
 \`\`\`bash
 cd .worktrees/<name>
-WORKTREE_PATH=$(pwd) docker compose -f docker-compose.frontend-worktree.yml up
+WORKTREE_PATH=$(pwd) docker compose -f docker-compose.worktree-frontend.yml up
 \`\`\`
 
 | 服務 | Port | Compose 檔案 |
 |------|------|-------------|
-| worktree backend | 8001 | docker-compose.backend-local.yml |
-| worktree frontend | 3001 | docker-compose.frontend-worktree.yml |
+| worktree backend | 8001 | docker-compose.worktree-backend.yml |
+| worktree frontend | 3001 | docker-compose.worktree-frontend.yml |
 
 > 注意：`WORKTREE_PATH` 必須設為該 worktree 的絕對路徑（在 worktree 目錄下執行 `$(pwd)` 即可）。
 > 各 worktree 需有自己的 `apps/backend/.env`。

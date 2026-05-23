@@ -41,8 +41,8 @@
 
 ### 4. 啟動 Worktree Docker 服務
 
-- Backend worktree：`WORKTREE_PATH=$(pwd) docker compose -f docker-compose.backend-local.yml up`（port 8001）
-- Frontend worktree：`WORKTREE_PATH=$(pwd) docker compose -f docker-compose.frontend-worktree.yml up`（port 3001）
+- Backend worktree：`WORKTREE_PATH=$(pwd) docker compose -f docker-compose.worktree-backend.yml up`（port 8001）
+- Frontend worktree：`WORKTREE_PATH=$(pwd) docker compose -f docker-compose.worktree-frontend.yml up`（port 3001）
 - `WORKTREE_PATH` 必須設為 worktree 的絕對路徑
 
 ### 5. 執行測試

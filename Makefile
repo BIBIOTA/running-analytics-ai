@@ -1,7 +1,7 @@
 .PHONY: dev lint test generate-api test-e2e test-e2e-ui
 
 dev:
-	docker compose up
+	docker compose -f docker-compose.base.yml -f docker-compose.dev.yml up
 
 lint:
 	cd apps/backend && ruff check app tests && ruff format --check app tests && mypy app
